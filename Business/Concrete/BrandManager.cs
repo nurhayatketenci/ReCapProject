@@ -1,5 +1,8 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
+using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -11,36 +14,38 @@ namespace Business.Concrete
     {
         IBrandDal _brandDal;
 
-        public void Add(Brand brand)
+        public BrandManager(IBrandDal brandDal)
         {
-            if (brand.BrandName.Length > 2)
-            {
-                _brandDal.Add(brand);
-            }
-            else
-            {
-                Console.WriteLine("Model İsmi 2 Karakterden Büyük Olmalı :" + brand.BrandName);
-            }
+            _brandDal = brandDal;
         }
 
-        public void Delete(Brand brand)
+        public IResult Add(Brand brand)
+        {
+            _brandDal.Add(brand);
+            return new SuccessResult(Messages.ProductAdded);
+        }
+
+        public IResult Delete(Brand brand)
         {
             _brandDal.Delete(brand);
+            return new SuccessResult(Messages.ProductDelete);
         }
-
-        public List<Brand> GetAll()
-        {
-            return _brandDal.GetAll();
-        }
-
-        public Brand GetCarsByBrandId(int id)
-        {
-            return _brandDal.Get(p => p.BrandId == id);
-        }
-
-        public void Update(Brand brand)
+        public IResult Update(Brand brand)
         {
             _brandDal.Update(brand);
+            return new SuccessResult(Messages.ProductUpdate);
         }
+        public IDataResult<List<Brand>> GetAll()
+        {
+          
+            return new SuccessDataResult<List<Brand>>(_brandDal.GetAll(), Messages.ProductListed);
+        }
+
+        public IDataResult<Brand> GetById(int brandId)
+        {
+            return new SuccessDataResult<Brand>(_brandDal.Get(b => b.BrandId == brandId));
+        }
+
+
     }
 }

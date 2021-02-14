@@ -1,5 +1,6 @@
 ﻿using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,8 @@ namespace DataAccess.Concrete
     public class InMemoryCarDal : ICarDal
     {
         List<Car> _cars;
+        List<Brand> _brands;
+        List<Color> _colors;
         public InMemoryCarDal()
         {
             _cars = new List<Car> {
@@ -20,6 +23,18 @@ namespace DataAccess.Concrete
            
 
    };
+            _brands = new List<Brand> {
+            new Brand{BrandId=1,BrandName="Tesla"},
+            new Brand{BrandId=2,BrandName="Audi"},
+             new Brand{BrandId=3,BrandName="Opel"},
+
+            };
+            _colors = new List<Color> {
+            new Color{ColorId=1,ColorName="red"},
+            new Color{ColorId=2,ColorName="black"},
+             new Color{ColorId=3,ColorName="blue"},
+
+            };
         }
             public void Add(Car car)
         {
@@ -43,6 +58,11 @@ namespace DataAccess.Concrete
         }
 
         public List<Car> GetAll(Expression<Func<Car, bool>> filter = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<CarDetailDto> GetCarDetails()
         {
             throw new NotImplementedException();
         }
