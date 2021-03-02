@@ -14,6 +14,9 @@ namespace DataAccess.Concrete
         List<Car> _cars;
         List<Brand> _brands;
         List<Color> _colors;
+        List<User> _users;
+        List<Customer> _customers;
+        List<Rental> _rentals;
         public InMemoryCarDal()
         {
             _cars = new List<Car> {
@@ -23,6 +26,20 @@ namespace DataAccess.Concrete
            
 
    };
+
+            _users = new List<User>
+            {
+                new User{UserId=1,FirstName="nur",LastName="hayat", Email="kodlama.io",Password="kodlamaio"},
+                new User{UserId=2,FirstName="irem",LastName="zehra", Email="kodlama.io",Password="kodlamaio"},
+                new User{UserId=3,FirstName="ömer",LastName="polat", Email="kodlama.io",Password="kodlamaio"},
+
+            };
+            _customers = new List<Customer> {
+            new Customer{CUsersId=1,CompanyName="indirim"},
+             new Customer{CUsersId=2,CompanyName="indirim"},
+              new Customer{CUsersId=3,CompanyName="indirim"}
+            };
+
             _brands = new List<Brand> {
             new Brand{BrandId=1,BrandName="Tesla"},
             new Brand{BrandId=2,BrandName="Audi"},
