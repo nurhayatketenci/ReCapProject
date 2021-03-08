@@ -30,9 +30,9 @@ namespace DataAccess.Concrete
 
             _users = new List<User>
             {
-                new User{UserId=1,FirstName="nur",LastName="hayat", Email="kodlama.io",Password="kodlamaio"},
-                new User{UserId=2,FirstName="irem",LastName="zehra", Email="kodlama.io",Password="kodlamaio"},
-                new User{UserId=3,FirstName="ömer",LastName="polat", Email="kodlama.io",Password="kodlamaio"},
+                new User{FirstName="nur",LastName="hayat", Email="kodlama.io"},
+                new User{FirstName="irem",LastName="zehra", Email="kodlama.io"},
+                new User{FirstName="ömer",LastName="polat", Email="kodlama.io"},
 
             };
             _customers = new List<Customer> {
