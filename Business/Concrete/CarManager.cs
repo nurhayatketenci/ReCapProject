@@ -34,35 +34,30 @@ namespace Business.Concrete
         [ValidationAspect(typeof(CarValidator))]
         public IResult Add(Car car)
         {
-           
             _carDal.Add(car);
             return new SuccessResult(Messages.ProductAdded);
         }
 
-
-
+        public IResult AddTransactionalTest(Car car)
+        {
+            throw new NotImplementedException();
+        }
 
         public IResult Delete(Car car)
         {
             _carDal.Delete(car);
             return new SuccessResult(Messages.ProductDelete);
         }
-        [CacheRemoveAspect("IProductService.Get")]
-        public IResult Update(Car car)
-        {
-            _carDal.Update(car);
-            return new SuccessResult(Messages.ProductUpdate);
-        }
         [CacheAspect]
         public IDataResult<List<Car>> GetAll()
         {
-            
             if (DateTime.Now.Hour == 23)
             {
                 return new ErrorDataResult<List<Car>>(Messages.MaintenanceTime);
             }
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(), Messages.ProductListed);
         }
+
         [CacheAspect]
         [PerformanceAspect(5)]
         public IDataResult<Car> GetCarById(int carId)
@@ -70,30 +65,46 @@ namespace Business.Concrete
             return new SuccessDataResult<Car>(_carDal.Get(p => p.CarId == carId));
         }
 
+
+        public IDataResult<List<CarDetailDto>> GetCarDetailBrandById(int brandId)
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(p => p.BrandId == brandId));
+
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarDetailById(int carId)
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(p => p.CarId == carId));
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarDetailColorById(int colorId)
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(p => p.ColorId == colorId));
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarDetails()
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails());
+        }
         public IDataResult<List<Car>> GetCarsByBrandId(int brandId)
         {
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(p => p.BrandId == brandId));
         }
 
-        public IDataResult<List<Car>> GetCarsByColorId(int colarId)
+        public IDataResult<List<Car>> GetCarsByColorId(int colorId)
         {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(p => p.ColorId == colarId));
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(p => p.ColorId == colorId));
         }
-        public IDataResult<List<CarDetailDto>> GetCarDetails()
+
+        public IDataResult<List<CarDetailDto>> GetCarsBySelect(int brandId, int carId)
         {
-            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails());
+            throw new NotImplementedException();
         }
-        public IDataResult<List<Car>> GetAllByModelYear(int year)
-        {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ModelYear == year));
-        }
-        [TransactionScopeAspect]
-        public IResult AddTransactionalTest(Car car)
+        [CacheRemoveAspect("IProductService.Get")]
+        public IResult Update(Car car)
         {
             _carDal.Update(car);
-            _carDal.Add(car);
             return new SuccessResult(Messages.ProductUpdate);
-
         }
     }
 }

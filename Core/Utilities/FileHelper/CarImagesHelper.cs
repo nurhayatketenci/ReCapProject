@@ -22,7 +22,7 @@ namespace Core.Utilities.FileHelper
             using (FileStream fileStream = File.Create(path + "\\" + Create))
             {
                 file.CopyToAsync(fileStream);
-                imagePath = path + "\\" + Create;
+                imagePath = Create;
                 fileStream.Flush();
             }
             return imagePath.Replace("\\", "/");
