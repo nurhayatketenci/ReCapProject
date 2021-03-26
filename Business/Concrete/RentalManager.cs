@@ -32,11 +32,32 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll());
         }
-      
-        public IDataResult<List<RentalDetailDto>> GetRentalDetails(Expression<Func<Rental, bool>> filter = null)
+
+        public IDataResult<RentalDetailDto> GetRentalDetailById(int id)
+        {
+            var data = _rentalDal.GetRentDetailsById(r => r.Id == id);
+            if (data == null)
+            {
+                return new ErrorDataResult<RentalDetailDto>(data, Messages.ErrorListed);
+            }
+            return new SuccessDataResult<RentalDetailDto>(data, Messages.ProductListed);
+
+        }
+
+        public IDataResult<List<RentalDetailDto>> GetRentalDetail(Expression<Func<Rental, bool>> filter = null)
         {
 
             return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetails());
+        }
+
+        public IDataResult<List<RentalDetailDto>> GetRentalDetails()
+        {
+            var data = _rentalDal.GetRentalDetails();
+            if (data == null)
+            {
+                return new ErrorDataResult<List<RentalDetailDto>>(data, Messages.ErrorListed);
+            }
+            return new SuccessDataResult<List<RentalDetailDto>>(data, Messages.ProductListed);
         }
 
         public bool Rent()

@@ -110,7 +110,7 @@ namespace WebAPI.Controllers
         public IActionResult GetCarDetail(int carId)
         {
             Thread.Sleep(1000);
-            var result = _carService.GetCarById(carId);
+            var result = _carService.GetCarDetailById(carId);
             if (result.Success)
             {
                 return Ok(result);
@@ -147,6 +147,16 @@ namespace WebAPI.Controllers
                 return Ok(result);
             }
             return BadRequest(result);
+        }
+        [HttpGet("filtercar")]
+        public IActionResult GetCarByBrandAndColorId(int brandID, int colorID)
+        {
+            var result = _carService.GetCarByBrandAndColorId(brandID, colorID);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest();
         }
     }
 }

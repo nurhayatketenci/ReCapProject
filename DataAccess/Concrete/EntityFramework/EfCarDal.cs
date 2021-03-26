@@ -25,7 +25,6 @@ namespace DataAccess.Concrete.EntityFramework
                              select new CarDetailDto
                              {
                                  CarId = c.CarId,
-                                 
                                  ColorId = c.ColorId,
                                  ColorName = co.ColorName,
                                  BrandId = c.BrandId,
@@ -34,6 +33,8 @@ namespace DataAccess.Concrete.EntityFramework
                                  DailyPrice = c.DailyPrice,
                                  Description = c.Description
                              };
+                
+
                 return filter == null ? result.ToList() : result.Where(filter).ToList();
             }
 

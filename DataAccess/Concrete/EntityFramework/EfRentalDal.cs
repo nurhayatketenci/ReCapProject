@@ -38,5 +38,32 @@ namespace DataAccess.Concrete.EntityFramework
             }
         }
 
+        public RentalDetailDto GetRentDetailsById(Expression<Func<RentalDetailDto, bool>> filter)
+        {
+            using (ReCapContext context = new ReCapContext())
+            {
+               
+                IQueryable<RentalDetailDto> data = CreateData(context);
+  
+
+                return data.FirstOrDefault(filter);
+            }
+        }
+        private static IQueryable<RentalDetailDto> CreateData(ReCapContext context)
+        {
+            return from rent in context.Rentals
+                   join car in context.Cars on rent.RCarId equals car.CarId
+                   join bra in context.Brands on car.BrandId equals bra.BrandId
+                   join cus in context.Customers on rent.CustomerId equals cus.CUsersId
+                   join usr in context.Users on cus.CUsersId equals usr.Id
+                   select new RentalDetailDto
+                   {
+                       Id = rent.RCarId,
+                       BrandName = bra.BrandName,
+                       CustomerName = usr.FirstName,
+                       RentDate = rent.RentDate,
+                       ReturnDate = rent.ReturnDate
+                   };
+        }
     }
 }
