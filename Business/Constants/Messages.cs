@@ -29,5 +29,6 @@ namespace Business.Constants
         public static string AccessTokenCreated = "erişim oluşturuldu";
         public static string OperationClaimsListed="listelendi";
         public static string ErrorListed="listelenemedi";
+        public static string AlreadyExist="kiralanamaz";
     }
 }

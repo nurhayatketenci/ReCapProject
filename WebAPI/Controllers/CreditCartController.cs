@@ -17,11 +17,10 @@ namespace WebAPI.Controllers
         {
             _cardService = cardService;
         }
-        [HttpGet]
-        [Route("check/{card}")]
-        public IActionResult Get(string card)
+        [HttpGet("check")]
+        public IActionResult Get( int cardNumber)
         {
-            var result = _cardService.GetCardByCardNumber(card);
+            var result = _cardService.GetCardByCardNumber(cardNumber);
 
             if (result.Success) return Ok(result);
             return BadRequest(result);

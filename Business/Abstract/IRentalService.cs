@@ -18,5 +18,8 @@ namespace Business.Abstract
         IResult Delete(Rental rental);
         IDataResult<List<RentalDetailDto>> GetRentalDetail(Expression<Func<Rental, bool>> filter = null);
         bool Rent();
+        IDataResult<Rental> GetById(int rentalId);
+        IDataResult <List<Rental>> GetByCarId(int carId);
+
     }
 }

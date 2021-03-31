@@ -52,7 +52,7 @@ namespace Business.Concrete
             return new SuccessDataResult<CreditCart>(data, Messages.ProductListed);
         }
 
-        public IDataResult<CreditCart> GetCardByCardNumber(string cardNumber)
+        public IDataResult<CreditCart> GetCardByCardNumber(int cardNumber)
         {
             var data = _cartDal.Get(x => x.CardNumber == cardNumber);
             if (data == null)

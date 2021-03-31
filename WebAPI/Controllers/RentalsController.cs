@@ -78,6 +78,24 @@ namespace WebAPI.Controllers
             if (result.Success) return Ok(result);
             return BadRequest(result);
         }
+        [HttpGet("getbyid")]
+
+        public IActionResult GetById(int rentalId)
+        {
+            var result = _rentalService.GetById(rentalId);
+
+            if (result.Success) return Ok(result);
+            return BadRequest(result);
+        }
+        [HttpGet("getrentalbycar")]
+
+        public IActionResult GetRentalByCar(int carId)
+        {
+            var result = _rentalService.GetByCarId(carId);
+
+            if (result.Success) return Ok(result);
+            return BadRequest(result);
+        }
 
     }
 }

@@ -6,6 +6,7 @@ using Entities.Concrete;
 using Entities.DTOs;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 
@@ -20,11 +21,20 @@ namespace Business.Concrete
         }
         public IResult Add(Rental rental)
         {
+            var result = _rentalDal.GetAll(r => r.RCarId == rental.RCarId && (r.ReturnDate == null || r.ReturnDate < DateTime.Now)).Any();
+
+            if (result)
+            {
+                return new ErrorResult(Messages.AlreadyExist);
+            }
+            _rentalDal.Add(rental);
+
             return new SuccessResult(Messages.ProductAdded);
         }
 
         public IResult Delete(Rental rental)
         {
+            _rentalDal.Delete(rental);
             return new SuccessResult(Messages.ProductDelete);
         }
 
@@ -68,6 +78,18 @@ namespace Business.Concrete
         public IResult Update(Rental rental)
         {
             return new SuccessResult(Messages.ProductUpdate);
+        }
+
+        public IDataResult<Rental> GetById(int rentalId)
+        {
+            var data = _rentalDal.Get(r => r.RentId == rentalId);
+            return new SuccessDataResult<Rental>(data);
+        }
+
+        public IDataResult<List<Rental>> GetByCarId(int carId)
+        {
+            var data = _rentalDal.GetAll(r => r.RCarId == carId);
+            return new SuccessDataResult<List<Rental>>(data);
         }
     }
 }

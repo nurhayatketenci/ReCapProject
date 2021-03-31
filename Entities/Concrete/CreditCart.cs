@@ -9,10 +9,10 @@ namespace Entities.Concrete
     {
         public int Id { get; set; }
         public string NameOnTheCard { get; set; }
-        public string CardNumber { get; set; }
-        public string CardCvv { get; set; }
+        public int CardNumber { get; set; }
+        public int CardCvv { get; set; }
         public int ExpirationMonth { get; set; }
         public int ExpirationYear { get; set; }
-        public decimal TotalMoney { get; set; }
+        public int  TotalMoney { get; set; }
     }
 }

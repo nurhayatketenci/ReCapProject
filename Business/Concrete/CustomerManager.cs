@@ -18,11 +18,13 @@ namespace Business.Concrete
         }
         public IResult Add(Customer customer)
         {
+            _customerDal.Add(customer); 
             return new SuccessResult(Messages.ProductAdded);
         }
 
         public IResult Delete(Customer customer)
         {
+            _customerDal.Delete(customer);
             return new SuccessResult(Messages.ProductDelete);
         }
 
@@ -33,7 +35,8 @@ namespace Business.Concrete
 
         public IResult Update(Customer customer)
         {
-            throw new NotImplementedException();
+            _customerDal.Update(customer);
+            return new SuccessResult(Messages.ProductUpdate);
         }
     }
 }
