@@ -30,7 +30,7 @@ namespace Business.Concrete
             _carDal = carDal;
         }
         [CacheRemoveAspect("IProductService.Get")]
-        //[SecuredOperation("car.add,admin")]
+        [SecuredOperation("car.add,admin")]
         [ValidationAspect(typeof(CarValidator))]
         public IResult Add(Car car)
         {
@@ -96,19 +96,16 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(p => p.ColorId == colorId));
         }
 
-        public IDataResult<List<CarDetailDto>> GetCarsBySelect(int brandId, int carId)
-        {
-            throw new NotImplementedException();
-        }
+        
         [CacheRemoveAspect("IProductService.Get")]
         public IResult Update(Car car)
         {
             _carDal.Update(car);
             return new SuccessResult(Messages.ProductUpdate);
         }
-        public IDataResult<List<CarDetailDto>> GetCarByBrandAndColorId(int brandID, int colorID)
+        public IDataResult<List<CarDetailDto>> GetCarByBrandAndColorId(int brandId, int colorId)
         {
-            List<CarDetailDto> carDetails = _carDal.GetCarDetails(c => c.BrandId == brandID && c.ColorId == colorID);
+            List<CarDetailDto> carDetails = _carDal.GetCarDetails(c => c.BrandId == brandId && c.ColorId == colorId);
             if (carDetails == null)
             {
                 return new ErrorDataResult<List<CarDetailDto>>(Messages.ProductNameInvalid);

@@ -9,43 +9,27 @@ namespace Core.Utilities.FileHelper
 {
     public class CarImagesHelper
     {
-        public static string Add(IFormFile file)
+       static string ImagePath = @"wwwroot/Images";
+        
+        public static string SaveImageFile(IFormFile imageFile)
         {
-            string extension = Path.GetExtension(file.FileName).ToUpper();
-            string Create = CreateGuid() + extension;
-            var path = Directory.GetCurrentDirectory() + "\\wwwroot" + @"\Images";
-            if (!Directory.Exists(path))
+            string newImageName = Guid.NewGuid() + Path.GetExtension(imageFile.FileName);
+            var fullPath = Path.Combine(ImagePath, newImageName);
+            using (var stream = new FileStream(fullPath, FileMode.Create))
             {
-                Directory.CreateDirectory(path);
+                imageFile.CopyTo(stream);
             }
-            string imagePath;
-            using (FileStream fileStream = File.Create(path + "\\" + Create))
+            return newImageName;
+        }
+        public static bool DeleteImageFile(string fileName)
+        {
+            string fullPath = Path.Combine(ImagePath, fileName);
+            if (File.Exists(fullPath))
             {
-                file.CopyToAsync(fileStream);
-                imagePath = Create;
-                fileStream.Flush();
+                File.Delete(fullPath);
+                return true;
             }
-            return imagePath.Replace("\\", "/");
+            return false;
         }
-
-        public static string Update(IFormFile file, string OldImagePath)
-        {
-            Delete(OldImagePath);
-            return Add(file);
-        }
-
-        public static void Delete(string ImagePath)
-        {
-            if (File.Exists(ImagePath.Replace("/", "\\")) && Path.GetFileName(ImagePath) != "default.png")
-            {
-                File.Delete(ImagePath.Replace("/", "\\"));
-            }
-        }
-
-        public static string CreateGuid()
-        {
-            return Guid.NewGuid().ToString("N") + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day + "-" + DateTime.Now.Year;
-        }
-
     }
 }

@@ -121,7 +121,7 @@ namespace WebAPI.Controllers
         [HttpGet("getbyselected")]
         public IActionResult GetCarsBySelect(int brandId, int colorId)
         {
-            var result = _carService.GetCarsBySelect(brandId, colorId);
+            var result = _carService.GetCarByBrandAndColorId(brandId, colorId);
             if (result.Success)
             {
                 return Ok(result);

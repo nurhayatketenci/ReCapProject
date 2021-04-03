@@ -96,6 +96,17 @@ namespace WebAPI.Controllers
             if (result.Success) return Ok(result);
             return BadRequest(result);
         }
+        [HttpGet("rentavailable")]
+        public IActionResult RentAvaliable(int carId)
+        {
+            var result = _rentalService.Rent(carId);
+            if (result)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
 
     }
 }

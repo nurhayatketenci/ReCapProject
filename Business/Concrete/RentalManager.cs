@@ -2,6 +2,7 @@
 using Business.Constants;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
+using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using Entities.DTOs;
 using System;
@@ -21,15 +22,15 @@ namespace Business.Concrete
         }
         public IResult Add(Rental rental)
         {
-            var result = _rentalDal.GetAll(r => r.RCarId == rental.RCarId && (r.ReturnDate == null || r.ReturnDate < DateTime.Now)).Any();
+            var result = _rentalDal.GetAll(r => r.RCarId == rental.RCarId && r.ReturnDate == null ).Any();
 
-            if (result)
+            if (rental.ReturnDate == null && _rentalDal.GetRentalDetails(r => r.RCarId == rental.RCarId).Count > 0)
             {
-                return new ErrorResult(Messages.AlreadyExist);
+                return new ErrorResult(Messages.CarAlreadyRented);
             }
             _rentalDal.Add(rental);
 
-            return new SuccessResult(Messages.ProductAdded);
+            return new SuccessResult(Messages.Rented);
         }
 
         public IResult Delete(Rental rental)
@@ -70,9 +71,15 @@ namespace Business.Concrete
             return new SuccessDataResult<List<RentalDetailDto>>(data, Messages.ProductListed);
         }
 
-        public bool Rent()
+        public bool Rent(int carId)
         {
-            return true;
+            using (ReCapContext context = new ReCapContext())
+            {
+                var result = from r in context.Rentals
+                             where r.RCarId == carId && r.ReturnDate == null
+                             select r;
+                return (result.Count() == 0) ? true : false;
+            }
         }
 
         public IResult Update(Rental rental)

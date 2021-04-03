@@ -1,10 +1,6 @@
 ﻿using Business.Abstract;
-using Microsoft.AspNetCore.Http;
+using Entities.Concrete;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
@@ -20,8 +16,8 @@ namespace WebAPI.Controllers
         }
 
 
-        [HttpGet]
-        [Route("list")]
+        [HttpGet("list")]
+     
         public IActionResult Get()
         {
             var result = _paymentManager.GetAll();
@@ -29,6 +25,16 @@ namespace WebAPI.Controllers
             if (result.Success) return Ok(result);
             return BadRequest(result);
         }
+        
+        [HttpPost("addpayment")]     
+        public IActionResult AddPayment(Payment payment)
+        {
+            var result = _paymentManager.Add(payment);
+
+            if (result.Success) return Ok(result);
+            return BadRequest(result);
+        }
+
     }
 }
 

@@ -8,7 +8,7 @@ namespace Business.Constants
 {
     public static class Messages
     {
-        public static string[] ValidImageFileTypes = { ".JPG", ".JPEG", ".PNG", ".TIF", ".TIFF", ".GIF", ".BMP", ".ICO" };
+        public static string[] ValidImageFileTypes = { ".jpg", ".jpeg", ".png" };
 
         public static string ProductAdded = "ürün eklendi";
         public static string ProductDelete = "ürün silindi";
@@ -16,6 +16,7 @@ namespace Business.Constants
         public static string ProductNameInvalid = "ürün ismi gecersiz";
         public static List<Car> MaintenanceTime;
         public static string ProductListed = "ürünler listelendi";
+        public static string CarAdd = "resim eklendi";
         public static string CarHaveNoImage = "resim yok";
         public static string pictureNotFound = "resim bulunamadı";
         public static string ImageExtensionInvalid = "geçersiz";
@@ -30,5 +31,8 @@ namespace Business.Constants
         public static string OperationClaimsListed="listelendi";
         public static string ErrorListed="listelenemedi";
         public static string AlreadyExist="kiralanamaz";
+        public static string CarImageUpdated="güncellendi";
+        public static string CarAlreadyRented="araç kiralanmış";
+        public static string Rented="kiralandı";
     }
 }
