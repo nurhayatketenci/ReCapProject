@@ -25,6 +25,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.ProductAdded);
         }
 
+     
 
         public IResult Delete(CreditCart creditCart)
         {
@@ -61,7 +62,16 @@ namespace Business.Concrete
             }
             return new SuccessDataResult<CreditCart>(data, Messages.ProductListed);
         }
+        public IResult CardVerification(CreditCart creditCart)
+        {
+            var result = _cartDal.Get(c => c.NameOnTheCard == creditCart.NameOnTheCard && c.CardCvv == creditCart.CardCvv && c.ExpirationMonth == c.ExpirationMonth && c.ExpirationYear == c.ExpirationYear);
+            if (result==null)
+            {
+                return new ErrorResult(Messages.NotFound);
+            }
+            return new SuccessResult(Messages.CardMatched);
 
+        }
         public IResult Update(CreditCart creditCart)
         {
             _cartDal.Update(creditCart);

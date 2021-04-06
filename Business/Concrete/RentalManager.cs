@@ -22,13 +22,28 @@ namespace Business.Concrete
         }
         public IResult Add(Rental rental)
         {
-            var result = _rentalDal.GetAll(r => r.RCarId == rental.RCarId && r.ReturnDate == null ).Any();
 
-            if (rental.ReturnDate == null && _rentalDal.GetRentalDetails(r => r.RCarId == rental.RCarId).Count > 0)
+            _rentalDal.Add(rental);
+
+            return new SuccessResult(Messages.Rented);
+        }
+        public IResult IsDelivered(Rental rental)
+        {
+            var result = this.GetByCarId(rental.CarId).Data.LastOrDefault();
+            if (result == null || result.ReturnDate != default)
+                return new SuccessResult();
+            return new ErrorResult();
+
+        }
+        public IResult CheckRentalAvailable(Rental rental)
+        {
+            //var rental = _rentalDal.Get(r => r.RCarId==carId && r.CustomerId==customerId);
+            //var result = _rentalDal.GetAll(r => r.RCarId == rental.RCarId && (r.ReturnDate == null )).Any();
+            var result = this.GetByCarId(rental.CarId).Data.LastOrDefault();
+            if (!(IsDelivered(rental).Success || (rental.RentDate > result.ReturnDate && rental.RentDate >= DateTime.Now)))
             {
                 return new ErrorResult(Messages.CarAlreadyRented);
             }
-            _rentalDal.Add(rental);
 
             return new SuccessResult(Messages.Rented);
         }
@@ -71,16 +86,16 @@ namespace Business.Concrete
             return new SuccessDataResult<List<RentalDetailDto>>(data, Messages.ProductListed);
         }
 
-        public bool Rent(int carId)
-        {
-            using (ReCapContext context = new ReCapContext())
-            {
-                var result = from r in context.Rentals
-                             where r.RCarId == carId && r.ReturnDate == null
-                             select r;
-                return (result.Count() == 0) ? true : false;
-            }
-        }
+        //public bool Rent(int carId)
+        //{
+        //    using (ReCapContext context = new ReCapContext())
+        //    {
+        //        var result = from r in context.Rentals
+        //                     where r.RCarId == carId && r.ReturnDate == null
+        //                     select r;
+        //        return (result.Count() == 0) ? true : false;
+        //    }
+        //}
 
         public IResult Update(Rental rental)
         {
@@ -95,7 +110,7 @@ namespace Business.Concrete
 
         public IDataResult<List<Rental>> GetByCarId(int carId)
         {
-            var data = _rentalDal.GetAll(r => r.RCarId == carId);
+            var data = _rentalDal.GetAll(r => r.CarId == carId);
             return new SuccessDataResult<List<Rental>>(data);
         }
     }

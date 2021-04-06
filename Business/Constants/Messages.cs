@@ -34,5 +34,10 @@ namespace Business.Constants
         public static string CarImageUpdated="güncellendi";
         public static string CarAlreadyRented="araç kiralanmış";
         public static string Rented="kiralandı";
+        public static string FindeksDeleted="findeks silindi";
+        public static string FindeksUpdated="findeks güncellendi";
+        public static string FindeksAdded="findeks eklendi";
+        public static string  NotFound="kart bulunamadı";
+        public static string CardMatched="kart bulundu";
     }
 }

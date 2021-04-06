@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Entities.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -17,12 +18,15 @@ namespace WebAPI.Controllers
         {
             _cardService = cardService;
         }
-        [HttpGet("check")]
-        public IActionResult Get( int cardNumber)
+        [HttpPost("check")]
+        public IActionResult Get(CreditCart creditCart)
         {
-            var result = _cardService.GetCardByCardNumber(cardNumber);
+            var result = _cardService.CardVerification(creditCart);
 
-            if (result.Success) return Ok(result);
+            if (result.Success) {
+                return Ok(result);
+            }
+           
             return BadRequest(result);
         }
 

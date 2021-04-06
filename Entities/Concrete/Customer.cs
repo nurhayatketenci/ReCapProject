@@ -11,5 +11,7 @@ namespace Entities.Concrete
         [Key]
         public int CUsersId { get; set; }
         public string CompanyName { get; set; }
+        public int FindexPuan { get; set; }
+      
     }
 }

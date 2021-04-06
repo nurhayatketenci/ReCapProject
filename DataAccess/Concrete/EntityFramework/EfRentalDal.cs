@@ -18,7 +18,7 @@ namespace DataAccess.Concrete.EntityFramework
             {
                 var result = from r in filter == null ? context.Rentals : context.Rentals.Where(filter)
                              join c in context.Cars
-                             on r.RCarId equals c.CarId
+                             on r.CarId equals c.CarId
                              join cu in context.Customers
                              on r.CustomerId equals cu.CUsersId
                              join b in context.Brands
@@ -27,7 +27,7 @@ namespace DataAccess.Concrete.EntityFramework
                              on cu.CUsersId equals u.Id
                              select new RentalDetailDto
                              {
-                                 Id = r.RCarId,
+                                 Id = r.CarId,
                                  BrandName = b.BrandName,
                                  CustomerName = cu.CompanyName,
                                  UserName = $"{u.FirstName} {u.LastName}",
@@ -52,13 +52,13 @@ namespace DataAccess.Concrete.EntityFramework
         private static IQueryable<RentalDetailDto> CreateData(ReCapContext context)
         {
             return from rent in context.Rentals
-                   join car in context.Cars on rent.RCarId equals car.CarId
+                   join car in context.Cars on rent.CarId equals car.CarId
                    join bra in context.Brands on car.BrandId equals bra.BrandId
                    join cus in context.Customers on rent.CustomerId equals cus.CUsersId
                    join usr in context.Users on cus.CUsersId equals usr.Id
                    select new RentalDetailDto
                    {
-                       Id = rent.RCarId,
+                       Id = rent.CarId,
                        BrandName = bra.BrandName,
                        CustomerName = usr.FirstName,
                        RentDate = rent.RentDate,
