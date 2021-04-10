@@ -34,12 +34,13 @@ namespace Business.Concrete
 
         public IDataResult<User> GetById(int Id)
         {
-            return new SuccessDataResult<User>(_userDal.Get(p => p.Id == Id));
+            var getById = _userDal.Get(p => p.Id == Id);
+            return new SuccessDataResult<User>(getById);
         }
 
-        public User GetByMail(string email)
+        public IDataResult<User> GetByMail(string email)
         {
-            return _userDal.Get(u => u.Email == email);
+            return new SuccessDataResult<User>(_userDal.Get(u => u.Email == email));
         }
 
         public IDataResult<List<OperationClaim>> GetClaims(User user)

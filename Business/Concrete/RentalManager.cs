@@ -35,6 +35,7 @@ namespace Business.Concrete
             return new ErrorResult();
 
         }
+    
         public IResult CheckRentalAvailable(Rental rental)
         {
             //var rental = _rentalDal.Get(r => r.RCarId==carId && r.CustomerId==customerId);
@@ -68,6 +69,16 @@ namespace Business.Concrete
             }
             return new SuccessDataResult<RentalDetailDto>(data, Messages.ProductListed);
 
+        }
+        public bool IsCarAvailable(int carId)
+        {
+            using (ReCapContext context = new ReCapContext())
+            {
+                var result = from r in context.Rentals
+                             where r.CarId == carId && r.ReturnDate == null
+                             select r;
+                return (result.Count() == 0) ? true : false;
+            }
         }
 
         public IDataResult<List<RentalDetailDto>> GetRentalDetail(Expression<Func<Rental, bool>> filter = null)

@@ -9,7 +9,6 @@ namespace Entities.Concrete
     {
         public int Id { get; set; }
         public int CUsersId { get; set; }
-        public int RentId { get; set; }
         public decimal TotalPrice { get; set; }
     }
 }

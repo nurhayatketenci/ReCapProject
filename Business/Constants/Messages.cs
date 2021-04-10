@@ -37,7 +37,8 @@ namespace Business.Constants
         public static string FindeksDeleted="findeks silindi";
         public static string FindeksUpdated="findeks güncellendi";
         public static string FindeksAdded="findeks eklendi";
-        public static string  NotFound="kart bulunamadı";
+        public static string NotFound="Bankanız bilgileri doğrulamadı";
         public static string CardMatched="kart bulundu";
+        public static string CustomerUpdated="güncellendi";
     }
 }

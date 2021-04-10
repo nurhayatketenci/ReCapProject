@@ -98,15 +98,16 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpPost("checkrentalavaliable")]
-        public IActionResult CheckRentalAvaliable(Rental rental)
+        [HttpGet("iscaravailable")]
+        public IActionResult IsCarAvailable(int carId)
         {
-            var result = _rentalService.CheckRentalAvailable(rental);
-
-            if (result.Success) return Ok(result);
+            var result = _rentalService.IsCarAvailable(carId);
+            if (result)
+            {
+                return Ok(result);
+            }
             return BadRequest(result);
         }
-
 
     }
 }
