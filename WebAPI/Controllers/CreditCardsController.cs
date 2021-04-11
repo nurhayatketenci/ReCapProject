@@ -11,10 +11,10 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CreditCartController : ControllerBase
+    public class CreditCardsController : ControllerBase
     {
          ICreditCartService _cardService;
-        public CreditCartController(ICreditCartService cardService)
+        public CreditCardsController(ICreditCartService cardService)
         {
             _cardService = cardService;
         }
