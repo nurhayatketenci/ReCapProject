@@ -27,7 +27,7 @@ namespace Business.Constants
         public static string PasswordError = "parola hatası";
         public static string SuccessfulLogin = "başarılı giriş";
         public static string UserAlreadyExists = "kullanıcı zaten var";
-        public static string AccessTokenCreated = "erişim oluşturuldu";
+        public static string AccessTokenCreated = "Başarıyla Giriş Yapıldı";
         public static string OperationClaimsListed="listelendi";
         public static string ErrorListed="listelenemedi";
         public static string AlreadyExist="kiralanamaz";
@@ -40,5 +40,6 @@ namespace Business.Constants
         public static string NotFound="Bankanız bilgileri doğrulamadı";
         public static string CardMatched="kart bulundu";
         public static string CustomerUpdated="güncellendi";
+        public static string CustomersListed="müşteriler listelendi";
     }
 }

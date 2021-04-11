@@ -31,19 +31,26 @@ namespace Business.Concrete
         {
             var result = this.GetByCarId(rental.CarId).Data.LastOrDefault();
             if (result == null || result.ReturnDate != default)
+            {
                 return new SuccessResult();
+            }
             return new ErrorResult();
 
         }
     
         public IResult CheckRentalAvailable(Rental rental)
         {
-            //var rental = _rentalDal.Get(r => r.RCarId==carId && r.CustomerId==customerId);
-            //var result = _rentalDal.GetAll(r => r.RCarId == rental.RCarId && (r.ReturnDate == null )).Any();
-            var result = this.GetByCarId(rental.CarId).Data.LastOrDefault();
-            if (!(IsDelivered(rental).Success || (rental.RentDate > result.ReturnDate && rental.RentDate >= DateTime.Now)))
+
+            var result = this.GetRentalsByCarId(rental.CarId).Data;
+            foreach (var pastRental in result)
             {
-                return new ErrorResult(Messages.CarAlreadyRented);
+                if ((!IsDelivered(pastRental).Success) &&
+                    ((rental.RentStartDate <= pastRental.RentEndDate && rental.RentStartDate >= pastRental.RentStartDate) ||
+                    (rental.RentEndDate <= pastRental.RentEndDate && rental.RentEndDate >= pastRental.RentStartDate) ||
+                    (rental.RentStartDate <= pastRental.RentStartDate && rental.RentEndDate >= pastRental.RentEndDate)))
+                {
+                    return new ErrorResult(Messages.CarAlreadyRented);
+                }
             }
 
             return new SuccessResult(Messages.Rented);
@@ -70,6 +77,18 @@ namespace Business.Concrete
             return new SuccessDataResult<RentalDetailDto>(data, Messages.ProductListed);
 
         }
+
+        public IDataResult<List<Rental>> GetRentalsByCarId(int carId)
+        {
+            var data = _rentalDal.GetAll(r => r.CarId == carId);
+            if (data == null)
+            {
+                return new ErrorDataResult<List<Rental>>(data, Messages.ErrorListed);
+            }
+            return new SuccessDataResult<List<Rental>>(data, Messages.ProductListed);
+
+        }
+
         public bool IsCarAvailable(int carId)
         {
             using (ReCapContext context = new ReCapContext())
@@ -96,17 +115,6 @@ namespace Business.Concrete
             }
             return new SuccessDataResult<List<RentalDetailDto>>(data, Messages.ProductListed);
         }
-
-        //public bool Rent(int carId)
-        //{
-        //    using (ReCapContext context = new ReCapContext())
-        //    {
-        //        var result = from r in context.Rentals
-        //                     where r.RCarId == carId && r.ReturnDate == null
-        //                     select r;
-        //        return (result.Count() == 0) ? true : false;
-        //    }
-        //}
 
         public IResult Update(Rental rental)
         {

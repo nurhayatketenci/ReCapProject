@@ -17,7 +17,7 @@ namespace DataAccess.Concrete
 
             using (ReCapContext context = new ReCapContext())
             {
-                var result = from c in context.Customers join u in context.Users on c.CUsersId equals u.Id select new CustomerDetailDto { Id = c.CUsersId, FirstName = u.FirstName, LastName = u.LastName, Email = u.Email,  CompanyName = c.CompanyName };
+                var result = from c in context.Customers join u in context.Users on c.CUsersId equals u.Id select new CustomerDetailDto { Id = c.CUsersId, FirstName = u.FirstName, LastName = u.LastName, CompanyName = c.CompanyName,FindexPuan=c.FindexPuan };
                 return result.ToList();
 
             }
