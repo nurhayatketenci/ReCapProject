@@ -7,8 +7,8 @@ namespace Entities.DTOs
 {
     public class CarDetailDto:IDto
     {
-        
-        public string ImagePath { get; set; }
+
+        public List<string> Images { get; set; }
         public int CarId { get; set; }
         public string BrandName { get; set; }
         public string ColorName { get; set; }

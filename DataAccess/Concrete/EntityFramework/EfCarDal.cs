@@ -22,12 +22,10 @@ namespace DataAccess.Concrete.EntityFramework
                              on c.ColorId equals co.ColorId
                              join b in context.Brands
                              on c.BrandId equals b.BrandId
-                             join ci in context.CarImages
-                             on c.CarId equals ci.CarId
                              select new CarDetailDto
                              {
-                                 CarName=c.CarName,
-                                 ImagePath=ci.ImagePath,
+                                 CarName = c.CarName,
+                                 Images = (from i in context.CarImages where i.CarId == c.CarId select i.ImagePath).ToList(),
                                  CarId = c.CarId,
                                  ColorId = c.ColorId,
                                  ColorName = co.ColorName,
@@ -36,9 +34,9 @@ namespace DataAccess.Concrete.EntityFramework
                                  ModelYear = c.ModelYear,
                                  DailyPrice = c.DailyPrice,
                                  Description = c.Description,
-                                 FindeksPuan=c.FindeksPuan
+                                 FindeksPuan = c.FindeksPuan
                              };
-                
+
 
                 return filter == null ? result.ToList() : result.Where(filter).ToList();
             }
